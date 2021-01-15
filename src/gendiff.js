@@ -18,7 +18,7 @@ const getKeyDifference = (first, second, key) => {
   return MODIFY;
 };
 
-const getDifferences = (first, second) => {
+export const getDifferences = (first, second) => {
   const sortedKeys = _.sortBy(Object.keys({ ...first, ...second }));
   const differences = sortedKeys.reduce((acc, key) => (
     { ...acc, [key]: getKeyDifference(first, second, key) }
