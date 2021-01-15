@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "description": "Difference calculator",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/apupko/frontend-project-lvl2.git"
+  },
+  "bin": {
+    "gendiff": "bin/gendiff.js"
   },
   "author": "Alexandr Pupko",
   "license": "ISC",
