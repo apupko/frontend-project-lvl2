@@ -22,5 +22,10 @@
   "homepage": "https://github.com/apupko/frontend-project-lvl2#readme",
   "dependencies": {
     "commander": "^6.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.17.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
   }
 }
