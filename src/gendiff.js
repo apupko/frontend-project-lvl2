@@ -39,7 +39,7 @@ const getKeyStylishString = (firstObj, secondObj, key, diffference) => {
 export const genString = (firstObj, secondObj, diffObj) => {
   const diffString = Object.entries(diffObj)
     .map(([key, value]) => getKeyStylishString(firstObj, secondObj, key, value)).join('');
-  return `{\n${diffString}}`;
+  return `{\n${diffString}}\n`;
 };
 
 export default (firstObj, secondObj) => {
