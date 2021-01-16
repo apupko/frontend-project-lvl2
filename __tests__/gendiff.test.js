@@ -12,11 +12,12 @@ const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8'
 let firstJson;
 let secondJson;
 let expectedObj;
-let expectedString;
+let expectedText;
 
 beforeAll(() => {
   firstJson = readFile('file1.json');
   secondJson = readFile('file2.json');
+  expectedText = readFile('expected.txt');
 
   expectedObj = {
     follow: 'removed',
@@ -25,15 +26,6 @@ beforeAll(() => {
     timeout: 'modify',
     verbose: 'added',
   };
-
-  expectedString = `{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
-}`;
 });
 
 test('Generate diff from 2 obj', () => {
@@ -42,5 +34,5 @@ test('Generate diff from 2 obj', () => {
   const diffObj = getDifferences(firstObj, secondObj);
   expect(diffObj).toEqual(expectedObj);
   const diffString = genString(firstObj, secondObj, diffObj);
-  expect(diffString).toEqual(expectedString);
+  expect(diffString).toEqual(expectedText);
 });
