@@ -15,12 +15,12 @@ beforeAll(() => {
   expectedText = readFile('expected.txt');
 });
 
-test('Result genDiff() function (2 plain json files)', () => {
+test('Comparison 2 plain json files', () => {
   const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
   expect(result).toMatch(expectedText);
 });
 
-test('Compare 2 plain yaml files', () => {
+test('Compariosn 2 plain yaml files', () => {
   const result = genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'));
   expect(result).toMatch(expectedText);
 });
