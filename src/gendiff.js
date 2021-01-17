@@ -6,10 +6,10 @@ const REMOVED = 'removed';
 const NO_CHANGE = 'no_change';
 
 const getKeyDifference = (first, second, key) => {
-  if (!second[key]) {
+  if (second[key] === undefined) {
     return REMOVED;
   }
-  if (!first[key]) {
+  if (first[key] === undefined) {
     return ADDED;
   }
   if (first[key] === second[key]) {
