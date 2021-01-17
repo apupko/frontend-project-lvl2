@@ -6,3 +6,5 @@
 
 ### Example:
 [![asciicast](https://asciinema.org/a/JZntkKZUUiMG2Dm20bzc84Fpt.png)](https://asciinema.org/a/JZntkKZUUiMG2Dm20bzc84Fpt)
+### Compare two files:
+[![asciicast](https://asciinema.org/a/ZCyLcXv2ee3VjEMIdlhLQB8DG.png)](https://asciinema.org/a/ZCyLcXv2ee3VjEMIdlhLQB8DG)
