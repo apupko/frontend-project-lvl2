@@ -12,9 +12,9 @@ const getTypeName = (value) => {
 
 export const isObject = (value) => getTypeName(value) === 'Object';
 
-const buildNode = (name, change, value, child) => {
+const buildNode = (name, change, value, children) => {
   const obj = { name, change };
-  return !child ? { ...obj, value } : { ...obj, child };
+  return !children ? { ...obj, value } : { ...obj, children };
 };
 
 const getDifference = (firstObj, secondObj) => {
@@ -26,8 +26,8 @@ const getDifference = (firstObj, secondObj) => {
       return buildNode(key, ADDED, { current: second[key] });
     }
     if (isObject(first[key]) && isObject(second[key])) {
-      const child = getDifference(first[key], second[key]);
-      return buildNode(key, UNCHANGED, null, child);
+      const children = getDifference(first[key], second[key]);
+      return buildNode(key, UNCHANGED, null, children);
     }
     if (first[key] === second[key]) {
       return buildNode(key, UNCHANGED, { current: second[key] });

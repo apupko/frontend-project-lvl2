@@ -28,10 +28,10 @@ const buildPropertyString = (level, name, change, currentValue, prevValue) => {
 
 const nodeToString = (node, level = 1) => {
   const { name, change } = node;
-  const { child, value } = node;
+  const { children, value } = node;
   const { current, previous } = value || {};
-  const currentValueString = child
-    ? formatValueAsObject(child.map((item) => nodeToString(item, level + 1)).join(''), level)
+  const currentValueString = children
+    ? formatValueAsObject(children.map((child) => nodeToString(child, level + 1)).join(''), level)
     : valueToString(current, level);
   const previousValueString = valueToString(previous, level);
 
