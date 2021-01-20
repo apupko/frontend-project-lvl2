@@ -5,12 +5,13 @@ program.description('Compares two configuration files and shows a difference');
 program.version('1.0.0');
 program.helpOption('-h, --help', 'output usage information');
 program.arguments('<filepath1> <filepath2');
-program.option('-f, --format [type]', 'output format');
+program.option('-f, --format [type]', 'output format', 'stylish');
 
 program
   .action((filepath1, filepath2) => {
     console.log();
-    console.log(genDiff(filepath1, filepath2));
+    const { format } = program.opts();
+    console.log(genDiff(filepath1, filepath2, format));
   });
 
 const run = () => {

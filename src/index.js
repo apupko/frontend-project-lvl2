@@ -4,7 +4,7 @@ import parse from './parsers.js';
 import getDifference from './gendiff.js';
 import format from './formaters.js';
 
-const genDiff = (filepath1, filepath2) => {
+const genDiff = (filepath1, filepath2, formatType) => {
   const firstFile = fs.readFileSync(path.resolve(filepath1), 'utf8');
   const secondFile = fs.readFileSync(path.resolve(filepath2), 'utf8');
   let result = '';
@@ -12,7 +12,7 @@ const genDiff = (filepath1, filepath2) => {
     const firstObj = parse(firstFile);
     const secondObj = parse(secondFile);
     const diffObj = getDifference(firstObj, secondObj);
-    result = format(diffObj);
+    result = format(diffObj, formatType);
   } catch (e) {
     console.log(e.message);
   }
