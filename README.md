@@ -10,3 +10,5 @@
 [![asciicast](https://asciinema.org/a/ZCyLcXv2ee3VjEMIdlhLQB8DG.png)](https://asciinema.org/a/ZCyLcXv2ee3VjEMIdlhLQB8DG)
 ### Compare two non-flat files:
 [![asciicast](https://asciinema.org/a/aydqmz16xzi6pnu763MXaufxA.png)](https://asciinema.org/a/aydqmz16xzi6pnu763MXaufxA)
+### Plain formatter:
+[![asciicast](https://asciinema.org/a/SXhLhp66odIKsOq8XTJrLvPMN.png)](https://asciinema.org/a/SXhLhp66odIKsOq8XTJrLvPMN)
