@@ -9,7 +9,7 @@ beforeAll(() => {
 
 test('Comparison stylish format - 2 equal yaml files', () => {
   const result = genDiff(getFixturePath('file1.yml'), getFixturePath('file1.yml'));
-  expect(result).toMatch(expectedTextToEqualFiles);
+  expect(result).toMatch(expectedTextToEqualFiles.slice(-1));
 });
 
 test.each([
@@ -19,5 +19,5 @@ test.each([
   ['stylish', 'yaml and yaml', 'file1.yml', 'file2.yml', 'expected.txt'],
 ])('Comparison %s format - %s', (format, desc, first, second, expected) => {
   const result = genDiff(getFixturePath(first), getFixturePath(second), format);
-  expect(result).toMatch(readFixtureFile(expected));
+  expect(result).toMatch(readFixtureFile(expected).slice(-1));
 });

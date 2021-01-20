@@ -40,7 +40,7 @@ const nodeToString = (node, level = 1) => {
 
 const formatToStylish = (nodes) => {
   const result = nodes.map((node) => nodeToString(node)).join('');
-  return `{\n${result}}\n`;
+  return `{\n${result}}`;
 };
 
 export default formatToStylish;
