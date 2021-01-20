@@ -7,16 +7,10 @@ import format from './formatters/index.js';
 const genDiff = (filepath1, filepath2, formatType = 'stylish') => {
   const firstFile = fs.readFileSync(path.resolve(filepath1), 'utf8');
   const secondFile = fs.readFileSync(path.resolve(filepath2), 'utf8');
-  let result = '';
-  try {
-    const firstObj = parse(firstFile);
-    const secondObj = parse(secondFile);
-    const diffObj = getDifference(firstObj, secondObj);
-    result = format(diffObj, formatType);
-  } catch (e) {
-    console.log(e.message);
-  }
-  return result;
+  const firstObj = parse(firstFile, path.extname(filepath1));
+  const secondObj = parse(secondFile, path.extname(filepath2));
+  const diffObj = getDifference(firstObj, secondObj);
+  return format(diffObj, formatType);
 };
 
 export default genDiff;

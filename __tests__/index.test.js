@@ -1,15 +1,9 @@
 import { getFixturePath, readFixtureFile } from '../__fixtures__/utils.js';
 import genDiff from '../src/index.js';
 
-let expectedTextToEqualFiles;
-
-beforeAll(() => {
-  expectedTextToEqualFiles = readFixtureFile('expected_equal.txt');
-});
-
 test('Comparison stylish format - 2 equal yaml files', () => {
   const result = genDiff(getFixturePath('file1.yml'), getFixturePath('file1.yml'));
-  expect(result).toMatch(expectedTextToEqualFiles.slice(-1));
+  expect(result).toMatch(readFixtureFile('expected_equal.txt').slice(-1));
 });
 
 test.each([

@@ -1,20 +1,12 @@
 import yaml from 'js-yaml';
 
-export default (data) => {
-  const errors = [];
-  try {
-    const obj = yaml.load(data);
-    return obj;
-  } catch (e) {
-    errors.push('wrong YAML');
-  }
+const parseToYaml = (data) => yaml.load(data);
 
-  try {
-    const obj = JSON.parse(data);
-    return obj;
-  } catch (e) {
-    errors.push('or JSON format');
-  }
+const parseToJson = (data) => JSON.parse(data);
 
-  throw new Error(`Wrong file format (${errors.join(' ')})`);
+const mappingExtnameToParser = {
+  '.yml': parseToYaml,
+  '.json': parseToJson,
 };
+
+export default (data, extname) => mappingExtnameToParser[extname](data);

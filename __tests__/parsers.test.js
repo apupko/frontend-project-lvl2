@@ -1,16 +1,8 @@
 import { readFixtureFile } from '../__fixtures__/utils.js';
 import parse from '../src/parsers.js';
 
-let jsonData;
-let yamlData;
-let textData;
-let expected;
-
-beforeAll(() => {
-  jsonData = readFixtureFile('file1.json');
-  yamlData = readFixtureFile('file1.yml');
-  textData = readFixtureFile('expected.txt');
-  expected = {
+test('Parse JSON data', () => {
+  const expected = {
     common: {
       setting1: 'Value 1',
       setting2: 200,
@@ -36,16 +28,7 @@ beforeAll(() => {
       },
     },
   };
-});
 
-test('Parse JSON data', () => {
-  expect(parse(jsonData)).toEqual(expected);
-});
-
-test('Parse YAML data', () => {
-  expect(parse(yamlData)).toEqual(expected);
-});
-
-test('Parse wrong format data', () => {
-  expect(() => parse(textData)).toThrow(Error);
+  expect(parse(readFixtureFile('file1.json'), '.json')).toEqual(expected);
+  expect(parse(readFixtureFile('file1.yml'), '.yml')).toEqual(expected);
 });
