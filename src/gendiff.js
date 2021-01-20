@@ -1,48 +1,42 @@
 import _ from 'lodash';
 
-const MODIFY = 'modify';
-const ADDED = 'added';
-const REMOVED = 'removed';
-const NO_CHANGE = 'no_change';
+export const ADDED = 'added';
+export const REMOVED = 'removed';
+export const NO_CHANGED = null;
+export const UPDATED = 'updated';
 
-const getKeyDifference = (first, second, key) => {
-  if (second[key] === undefined) {
-    return REMOVED;
-  }
-  if (first[key] === undefined) {
-    return ADDED;
-  }
-  if (first[key] === second[key]) {
-    return NO_CHANGE;
-  }
-  return MODIFY;
+const getTypeName = (value) => {
+  const typeString = Object.prototype.toString.call(value);
+  return typeString.split(' ')[1].replace(']', '');
 };
 
-export const getDifferences = (first, second) => {
-  const sortedKeys = _.sortBy(Object.keys({ ...first, ...second }));
-  const differences = sortedKeys.reduce((acc, key) => (
-    { ...acc, [key]: getKeyDifference(first, second, key) }
-  ), {});
-  return differences;
+export const isObject = (value) => getTypeName(value) === 'Object';
+
+const buildNode = (name, change, value, child) => {
+  const obj = { name, change };
+  return !child ? { ...obj, value } : { ...obj, child };
 };
 
-const getKeyStylishString = (firstObj, secondObj, key, diffference) => {
-  const mapping = {
-    [NO_CHANGE]: `    ${key}: ${secondObj[key]}\n`,
-    [ADDED]: `  + ${key}: ${secondObj[key]}\n`,
-    [MODIFY]: `  - ${key}: ${firstObj[key]}\n  + ${key}: ${secondObj[key]}\n`,
-    [REMOVED]: `  - ${key}: ${firstObj[key]}\n`,
+const getDifference = (firstObj, secondObj) => {
+  const getKeyDifference = (first, second, key) => {
+    if (!_.has(second, key)) {
+      return buildNode(key, REMOVED, { current: first[key] });
+    }
+    if (!_.has(first, key)) {
+      return buildNode(key, ADDED, { current: second[key] });
+    }
+    if (isObject(first[key]) && isObject(second[key])) {
+      const child = getDifference(first[key], second[key]);
+      return buildNode(key, NO_CHANGED, null, child);
+    }
+    if (first[key] === second[key]) {
+      return buildNode(key, NO_CHANGED, { current: second[key] });
+    }
+    return buildNode(key, UPDATED, { current: second[key], previous: first[key] });
   };
-  return mapping[diffference];
+
+  const keys = _.sortBy(_.union(_.keys(firstObj), _.keys(secondObj)));
+  return keys.map((key) => getKeyDifference(firstObj, secondObj, key));
 };
 
-export const genString = (firstObj, secondObj, diffObj) => {
-  const diffString = Object.entries(diffObj)
-    .map(([key, value]) => getKeyStylishString(firstObj, secondObj, key, value)).join('');
-  return `{\n${diffString}}\n`;
-};
-
-export default (firstObj, secondObj) => {
-  const diffObj = getDifferences(firstObj, secondObj);
-  return genString(firstObj, secondObj, diffObj);
-};
+export default getDifference;
