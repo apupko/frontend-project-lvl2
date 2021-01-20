@@ -1,30 +1,35 @@
 import { getFixturePath, readFixtureFile } from '../__fixtures__/utils.js';
 import genDiff from '../src/index.js';
 
-let expectedText;
+let expectedTextStylish;
+let expectedTextPlain;
 let expectedTextToEqualFiles;
 
 beforeAll(() => {
-  expectedText = readFixtureFile('expected.txt');
+  expectedTextStylish = readFixtureFile('expected.txt');
+  expectedTextPlain = readFixtureFile('expected_plain.txt');
   expectedTextToEqualFiles = readFixtureFile('expected_equal.txt');
 });
 
-test('Comparison 2 plain json files', () => {
-  const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
-  expect(result).toMatch(expectedText);
-});
-
-test('Comparison 2 plain yaml files', () => {
-  const result = genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'));
-  expect(result).toMatch(expectedText);
-});
-
-test('Comparison 2 equal files', () => {
+test('Comparison stylish format - 2 equal yaml files', () => {
   const result = genDiff(getFixturePath('file1.yml'), getFixturePath('file1.yml'));
   expect(result).toMatch(expectedTextToEqualFiles);
 });
 
-test('Comparison json file with yaml file', () => {
-  const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.yml'));
-  expect(result).toMatch(expectedText);
+test.each([
+  ['stylish', 'json and json', 'file1.json', 'file2.json'],
+  ['stylish', 'yaml and yaml', 'file1.yml', 'file2.yml'],
+  ['stylish', 'json and yaml', 'file1.json', 'file2.yml'],
+])('Comparison %s format - %s', (format, desc, first, second) => {
+  const result = genDiff(getFixturePath(first), getFixturePath(second), format);
+  expect(result).toMatch(expectedTextStylish);
+});
+
+test.each([
+  ['plain', 'json and json', 'file1.json', 'file2.json'],
+  ['plain', 'yaml and yaml', 'file1.yml', 'file2.yml'],
+  ['plain', 'json and yaml', 'file1.json', 'file2.yml'],
+])('Comparison %s format - %s', (format, desc, first, second) => {
+  const result = genDiff(getFixturePath(first), getFixturePath(second), format);
+  expect(result).toMatch(expectedTextPlain);
 });
