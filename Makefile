@@ -15,5 +15,8 @@ test:
 test-coverage:
 	npm test -- --coverage --coverageProvider=v8
 
+view-tree:
+	tree -I node*
+
 .PHONY: test
 
