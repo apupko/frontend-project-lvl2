@@ -1,13 +1,9 @@
 import { getFixturePath, readFixtureFile } from '../__fixtures__/utils.js';
 import genDiff from '../src/index.js';
 
-let expectedTextStylish;
-let expectedTextPlain;
 let expectedTextToEqualFiles;
 
 beforeAll(() => {
-  expectedTextStylish = readFixtureFile('expected.txt');
-  expectedTextPlain = readFixtureFile('expected_plain.txt');
   expectedTextToEqualFiles = readFixtureFile('expected_equal.txt');
 });
 
@@ -17,19 +13,11 @@ test('Comparison stylish format - 2 equal yaml files', () => {
 });
 
 test.each([
-  ['stylish', 'json and json', 'file1.json', 'file2.json'],
-  ['stylish', 'yaml and yaml', 'file1.yml', 'file2.yml'],
-  ['stylish', 'json and yaml', 'file1.json', 'file2.yml'],
-])('Comparison %s format - %s', (format, desc, first, second) => {
+  ['plain', 'json and json', 'file1.json', 'file2.json', 'expected_plain.txt'],
+  ['plain', 'yaml and yaml', 'file1.yml', 'file2.yml', 'expected_plain.txt'],
+  ['stylish', 'json and json', 'file1.json', 'file2.json', 'expected.txt'],
+  ['stylish', 'yaml and yaml', 'file1.yml', 'file2.yml', 'expected.txt'],
+])('Comparison %s format - %s', (format, desc, first, second, expected) => {
   const result = genDiff(getFixturePath(first), getFixturePath(second), format);
-  expect(result).toMatch(expectedTextStylish);
-});
-
-test.each([
-  ['plain', 'json and json', 'file1.json', 'file2.json'],
-  ['plain', 'yaml and yaml', 'file1.yml', 'file2.yml'],
-  ['plain', 'json and yaml', 'file1.json', 'file2.yml'],
-])('Comparison %s format - %s', (format, desc, first, second) => {
-  const result = genDiff(getFixturePath(first), getFixturePath(second), format);
-  expect(result).toMatch(expectedTextPlain);
+  expect(result).toMatch(readFixtureFile(expected));
 });
