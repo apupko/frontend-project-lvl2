@@ -1,33 +1,27 @@
-import {
-  ADDED,
-  REMOVED,
-  UPDATED,
-  NO_CHANGED,
-  isObject,
-} from './gendiff.js';
+import * as types from '../gendiff.js';
 
 const createIndent = (level, symbol = ' ', count = 4) => symbol.repeat(level * count - 2);
 const formatValueAsObject = (value, level) => `{\n${value}${createIndent(level)}  }`;
 
 const objToString = (obj, level) => {
   const result = Object.entries(obj).map(([key, value]) => {
-    const valueStr = isObject(value) ? objToString(value, level + 1) : value;
+    const valueStr = types.isObject(value) ? objToString(value, level + 1) : value;
     return `${createIndent(level + 1)}  ${key}: ${valueStr}\n`;
   }).join('');
   return formatValueAsObject(result, level);
 };
 
 const valueToString = (value, level) => (
-  isObject(value) ? objToString(value, level) : value
+  types.isObject(value) ? objToString(value, level) : value
 );
 
 const buildPropertyString = (level, name, change, currentValue, prevValue) => {
   const build = (value, prefix = ' ') => `${createIndent(level)}${prefix} ${name}: ${value}\n`;
   const mappingChange = {
-    [ADDED]: build(currentValue, '+'),
-    [REMOVED]: build(currentValue, '-'),
-    [UPDATED]: build(prevValue, '-').concat(build(currentValue, '+')),
-    [NO_CHANGED]: build(currentValue),
+    [types.ADDED]: build(currentValue, '+'),
+    [types.REMOVED]: build(currentValue, '-'),
+    [types.CHANGED]: build(prevValue, '-').concat(build(currentValue, '+')),
+    [types.UNCHANGED]: build(currentValue),
   };
   return mappingChange[change];
 };
@@ -49,11 +43,4 @@ const formatToStylish = (nodes) => {
   return `{\n${result}}\n`;
 };
 
-const format = (nodes, style = 'stylish') => {
-  const mappingFormat = {
-    stylish: formatToStylish(nodes),
-  };
-  return mappingFormat[style];
-};
-
-export default format;
+export default formatToStylish;

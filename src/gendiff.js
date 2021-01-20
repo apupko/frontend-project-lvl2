@@ -2,8 +2,8 @@ import _ from 'lodash';
 
 export const ADDED = 'added';
 export const REMOVED = 'removed';
-export const NO_CHANGED = null;
-export const UPDATED = 'updated';
+export const UNCHANGED = null;
+export const CHANGED = 'changed';
 
 const getTypeName = (value) => {
   const typeString = Object.prototype.toString.call(value);
@@ -27,12 +27,12 @@ const getDifference = (firstObj, secondObj) => {
     }
     if (isObject(first[key]) && isObject(second[key])) {
       const child = getDifference(first[key], second[key]);
-      return buildNode(key, NO_CHANGED, null, child);
+      return buildNode(key, UNCHANGED, null, child);
     }
     if (first[key] === second[key]) {
-      return buildNode(key, NO_CHANGED, { current: second[key] });
+      return buildNode(key, UNCHANGED, { current: second[key] });
     }
-    return buildNode(key, UPDATED, { current: second[key], previous: first[key] });
+    return buildNode(key, CHANGED, { current: second[key], previous: first[key] });
   };
 
   const keys = _.sortBy(_.union(_.keys(firstObj), _.keys(secondObj)));
