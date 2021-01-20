@@ -25,6 +25,6 @@ const toPlainString = (node, parentPath = null) => {
   return buildPropertyString(path, change, currentValue, previousValue);
 };
 
-const formatToPlain = (nodes) => nodes.map((node) => toPlainString(node)).join('');
+const formatToPlain = (nodes) => nodes.map((node) => toPlainString(node)).join('').slice(-1);
 
 export default formatToPlain;
