@@ -6,7 +6,7 @@ import {
   isObject,
 } from './gendiff.js';
 
-const createIndent = (level, symbol = ' ', count = 4) => symbol.repeat(level * count);
+const createIndent = (level, symbol = ' ', count = 4) => symbol.repeat(level * count - 2);
 const formatValueAsObject = (value, level) => `{\n${value}${createIndent(level)}  }`;
 
 const objToString = (obj, level) => {
@@ -39,14 +39,14 @@ const nodeToString = (node, level) => {
   const currentValueString = child
     ? formatValueAsObject(child.map((item) => nodeToString(item, level + 1)).join(''), level)
     : valueToString(current, level);
-  const previousValueString = valueToString(previous);
+  const previousValueString = valueToString(previous, level);
 
   return buildPropertyString(level, name, change, currentValueString, previousValueString);
 };
 
 const formatToStylish = (nodes) => {
-  const result = nodes.map((node) => nodeToString(node, 0)).join('');
-  return `{\n${result}\n}`;
+  const result = nodes.map((node) => nodeToString(node, 1)).join('');
+  return `{\n${result}}\n`;
 };
 
 const format = (nodes, style = 'stylish') => {
