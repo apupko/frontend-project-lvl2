@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import parse from './parsers.js';
 import getDifference from './gendiff.js';
-import format from './formaters/formaters.js';
+import format from './formatters/index.js';
 
 const genDiff = (filepath1, filepath2, formatType = 'stylish') => {
   const firstFile = fs.readFileSync(path.resolve(filepath1), 'utf8');
