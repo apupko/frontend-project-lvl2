@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as types from '../gendiff.js';
 
 const valueToString = (value) => {
@@ -25,6 +26,6 @@ const toPlainString = (node, parentPath = null) => {
   return buildPropertyString(path, change, currentValue, previousValue);
 };
 
-const formatToPlain = (nodes) => nodes.map((node) => toPlainString(node)).join('').slice(-1);
+const formatToPlain = (nodes) => _.trimEnd(nodes.map((node) => toPlainString(node)).join(''), '\n');
 
 export default formatToPlain;
