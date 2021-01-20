@@ -26,7 +26,7 @@ const buildPropertyString = (level, name, change, currentValue, prevValue) => {
   return mappingChange[change];
 };
 
-const nodeToString = (node, level) => {
+const nodeToString = (node, level = 1) => {
   const { name, change } = node;
   const { child, value } = node;
   const { current, previous } = value || {};
@@ -39,7 +39,7 @@ const nodeToString = (node, level) => {
 };
 
 const formatToStylish = (nodes) => {
-  const result = nodes.map((node) => nodeToString(node, 1)).join('');
+  const result = nodes.map((node) => nodeToString(node)).join('');
   return `{\n${result}}\n`;
 };
 
